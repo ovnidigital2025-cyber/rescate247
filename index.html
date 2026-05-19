@@ -45,7 +45,7 @@ nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,.6); }
   display: flex; align-items: center; gap: .75rem; text-decoration: none;
 }
 .logo-img {
-  width: 85px;
+  width: 120px;
   height: auto;
   object-fit: contain;
 }
@@ -214,7 +214,7 @@ h1 em { font-style: normal; color: var(--red-lt); }
   padding: 2rem;
   display: flex; align-items: center; justify-content: center;
 }
-.hero-truck-card svg { width: 100%; max-width: 340px; height: auto; }
+.hero-img { width: 100%; max-width: 700px; height: auto; object-fit:contain; display:block; margin:auto; }
 .hero-stats-row {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
   background: var(--border);
@@ -563,52 +563,13 @@ footer {
       <h1>Tu unidad<br>no para.<br><em>Nosotros tampoco.</em></h1>
       <p class="hero-sub">Mecánica diesel especializada a pie de carretera. Auxilio vial 24/7, servicios preventivos y correctivos para unidades pesadas. Llegamos donde estás.</p>
       <div class="hero-actions">
-        <a href="tel:+524420000000" class="btn-red">🚨 Llamar ahora — Emergencia</a>
+        <a href="tel:+529616604875" class="btn-red">🚨 Llamar ahora — Emergencia</a>
         <a href="#servicios" class="btn-outline">Ver servicios →</a>
       </div>
     </div>
     <div class="hero-visual">
       <div class="hero-truck-card">
-        <svg viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Roof -->
-          <polyline points="20,155 200,30 380,155" stroke="white" stroke-width="4" fill="none" stroke-linejoin="round"/>
-          <!-- Body -->
-          <rect x="30" y="105" width="340" height="110" rx="3" fill="none" stroke="white" stroke-width="3"/>
-          <!-- Cab -->
-          <rect x="30" y="112" width="100" height="103" rx="2" fill="none" stroke="white" stroke-width="2.5"/>
-          <!-- Windshield -->
-          <path d="M35 138 L35 118 L110 118 L125 138 Z" fill="none" stroke="white" stroke-width="2"/>
-          <!-- Exhaust pipes -->
-          <rect x="115" y="80" width="7" height="32" rx="1" fill="white" opacity=".5"/>
-          <rect x="127" y="86" width="7" height="26" rx="1" fill="white" opacity=".35"/>
-          <!-- Trailer lines -->
-          <line x1="140" y1="118" x2="365" y2="118" stroke="white" stroke-width="1.5" opacity=".5"/>
-          <line x1="140" y1="132" x2="365" y2="132" stroke="white" stroke-width="1.5" opacity=".35"/>
-          <line x1="140" y1="148" x2="365" y2="148" stroke="white" stroke-width="1.5" opacity=".35"/>
-          <line x1="140" y1="164" x2="365" y2="164" stroke="white" stroke-width="1.5" opacity=".35"/>
-          <!-- Vert trailer divisions -->
-          <line x1="200" y1="108" x2="200" y2="215" stroke="white" stroke-width="1" opacity=".2"/>
-          <line x1="280" y1="108" x2="280" y2="215" stroke="white" stroke-width="1" opacity=".2"/>
-          <!-- Wheels -->
-          <circle cx="75" cy="215" r="18" fill="none" stroke="white" stroke-width="3"/>
-          <circle cx="75" cy="215" r="8" fill="none" stroke="white" stroke-width="2"/>
-          <circle cx="75" cy="215" r="3" fill="white" opacity=".3"/>
-          <circle cx="240" cy="215" r="18" fill="none" stroke="white" stroke-width="3"/>
-          <circle cx="240" cy="215" r="8" fill="none" stroke="white" stroke-width="2"/>
-          <circle cx="240" cy="215" r="3" fill="white" opacity=".3"/>
-          <circle cx="295" cy="215" r="18" fill="none" stroke="white" stroke-width="3"/>
-          <circle cx="295" cy="215" r="8" fill="none" stroke="white" stroke-width="2"/>
-          <circle cx="295" cy="215" r="3" fill="white" opacity=".3"/>
-          <circle cx="355" cy="215" r="18" fill="none" stroke="white" stroke-width="3"/>
-          <circle cx="355" cy="215" r="8" fill="none" stroke="white" stroke-width="2"/>
-          <circle cx="355" cy="215" r="3" fill="white" opacity=".3"/>
-          <!-- Ground -->
-          <line x1="0" y1="233" x2="400" y2="233" stroke="white" stroke-width="2"/>
-          <!-- Speed lines (motion) -->
-          <line x1="0" y1="200" x2="22" y2="200" stroke="#D42B2B" stroke-width="2" opacity=".7"/>
-          <line x1="0" y1="192" x2="16" y2="192" stroke="#D42B2B" stroke-width="1.5" opacity=".5"/>
-          <line x1="0" y1="208" x2="10" y2="208" stroke="#D42B2B" stroke-width="1" opacity=".4"/>
-        </svg>
+       <img src="logo.png" alt="Unidad Rescate 24/7" class="hero-img">
       </div>
       <div class="hero-stats-row">
         <div class="hstat"><div class="hstat-num">24/7</div><div class="hstat-lbl">Siempre disponible</div></div>
@@ -660,7 +621,7 @@ footer {
     <h2>¿Tu unidad está varada en carretera ahora mismo?</h2>
     <p>Llámanos — en menos de 60 minutos estamos contigo.</p>
   </div>
-  <a href="tel:+524420000000" class="btn-white">📞 &nbsp;Llamar ahora</a>
+  <a href="tel:+529616604875" class="btn-white">📞 &nbsp;Llamar ahora</a>
 </div>
 
 <!-- PROCESS -->
@@ -739,7 +700,7 @@ footer {
           <div class="c-icon">📞</div>
           <div>
             <div class="c-label">Teléfono / WhatsApp</div>
-            <div class="c-value">+52 442 000 0000</div>
+            <div class="c-value">+52 961 660 4875</div>
           </div>
         </div>
         <div class="contact-item">
@@ -808,7 +769,7 @@ footer {
   const NAV_HEIGHT = 68;
 
   // ── Smooth scroll a una sección por ID ──
-  function scrollTo(id) {
+  function scrollToSection(id) {
     const el = document.getElementById(id);
     if (!el) return;
     const top = el.getBoundingClientRect().top + window.pageYOffset - NAV_HEIGHT;
@@ -821,7 +782,7 @@ footer {
     if (link) {
       e.preventDefault();
       const id = link.getAttribute('href').replace('#', '');
-      if (id) scrollTo(id);
+      if (id) scrollToSection(id);
     }
   });
 
