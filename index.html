@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rescate 24/7 – Mecánica Diesel en Carretera</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:  #0A0A0A;
+  --dark:   #111111;
+  --panel:  #181818;
+  --border: rgba(255,255,255,.07);
+  --red:    #D42B2B;
+  --red-lt: #FF3D3D;
+  --white:  #FFFFFF;
+  --gray:   #888888;
+  --light:  #CCCCCC;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(10,10,10,.97);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 6%;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px;
+  transition: box-shadow .3s;
+}
+nav.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,.6); }
+.nav-logo {
+  display: flex; align-items: center; gap: .75rem; text-decoration: none;
+}
+.nav-logo svg { width: 36px; height: 36px; }
+.nav-logo-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem; letter-spacing: .05em; color: var(--white);
+}
+.nav-logo-text span { color: var(--red-lt); }
+.nav-links {
+  display: flex; gap: .25rem; list-style: none; align-items: center;
+}
+.nav-links a {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .82rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.5); text-decoration: none;
+  padding: .4rem .85rem; border-radius: 2px;
+  transition: color .2s, background .2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -2px; left: 50%; right: 50%;
+  height: 2px; background: var(--red);
+  transition: left .25s, right .25s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after,
+.nav-links a.active::after { left: .85rem; right: .85rem; }
+.nav-links a.active { color: var(--white); }
+.nav-cta {
+  background: var(--red) !important;
+  color: var(--white) !important;
+  padding: .55rem 1.4rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .08em !important;
+  box-shadow: 0 4px 16px rgba(212,43,43,.35);
+}
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { background: var(--red-lt) !important; color: var(--white) !important; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px;
+}
+.hamburger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: .3s; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-menu {
+  display: none; position: fixed; top: 68px; left: 0; right: 0;
+  background: rgba(10,10,10,.99); backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 1.25rem 6% 1.75rem; z-index: 99; flex-direction: column; gap: 0;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.05rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.65); text-decoration: none;
+  padding: .9rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  transition: color .2s;
+}
+.mobile-menu a:hover { color: var(--white); }
+.mobile-menu .mob-cta {
+  background: var(--red); color: var(--white) !important;
+  padding: .9rem 1.5rem !important;
+  text-align: center; border-radius: 2px; margin-top: 1rem;
+  border-bottom: none !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 20px rgba(212,43,43,.4);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 7rem 6% 5rem;
+  position: relative; overflow: hidden;
+  background: var(--black);
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 80% at 80% 50%, rgba(212,43,43,.12) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 60% at 10% 80%, rgba(212,43,43,.06) 0%, transparent 60%);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+.hero-slash {
+  position: absolute; top: 0; right: -5%;
+  width: 55%; height: 100%;
+  background: linear-gradient(160deg, rgba(212,43,43,.08) 0%, transparent 60%);
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+}
+.hero-inner {
+  position: relative; z-index: 2;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  width: 100%;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: rgba(212,43,43,.15); border: 1px solid rgba(212,43,43,.4);
+  padding: .35rem 1rem; border-radius: 20px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--red-lt); margin-bottom: 1.5rem;
+}
+.hero-badge .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--red-lt); animation: pulse 1.5s infinite;
+}
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: .95; letter-spacing: .02em;
+  color: var(--white); margin-bottom: 1.25rem;
+}
+h1 em { font-style: normal; color: var(--red-lt); }
+.hero-sub {
+  font-size: 1.05rem; line-height: 1.75; font-weight: 300;
+  color: rgba(255,255,255,.6); max-width: 440px;
+  margin-bottom: 2.25rem;
+}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-red {
+  display: inline-flex; align-items: center; gap: .6rem;
+  background: var(--red); color: var(--white);
+  padding: .9rem 2rem; border: none; border-radius: 2px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  cursor: pointer; text-decoration: none;
+  box-shadow: 0 8px 30px rgba(212,43,43,.4);
+  transition: background .2s, transform .2s, box-shadow .2s;
+  position: relative; overflow: hidden;
+}
+.btn-red::after {
+  content: '';
+  position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+  animation: shimmer 2.5s 1s infinite;
+}
+.btn-red:hover { background: var(--red-lt); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(212,43,43,.55); }
+.btn-outline {
+  display: inline-flex; align-items: center; gap: .5rem;
+  background: transparent; color: rgba(255,255,255,.75);
+  padding: .9rem 1.75rem; border: 1px solid rgba(255,255,255,.2); border-radius: 2px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  cursor: pointer; text-decoration: none;
+  transition: border-color .2s, color .2s;
+}
+.btn-outline:hover { border-color: var(--red); color: var(--red-lt); }
+
+/* HERO VISUAL SIDE */
+.hero-visual {
+  display: flex; flex-direction: column; gap: 1rem;
+  opacity: 0; animation: fadeLeft .8s .5s forwards;
+}
+.hero-truck-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  padding: 2rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-truck-card svg { width: 100%; max-width: 340px; height: auto; }
+.hero-stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  background: var(--border);
+}
+.hstat {
+  background: var(--panel);
+  padding: 1.25rem 1rem; text-align: center;
+}
+.hstat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem; color: var(--red-lt); line-height: 1;
+}
+.hstat-lbl {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.4); margin-top: .2rem;
+}
+
+/* hero text animate */
+.hero-badge { opacity: 0; animation: fadeUp .6s .1s forwards; }
+h1 { opacity: 0; animation: fadeUp .6s .25s forwards; }
+.hero-sub { opacity: 0; animation: fadeUp .6s .4s forwards; }
+.hero-actions { opacity: 0; animation: fadeUp .6s .55s forwards; }
+
+/* ── SECTION BASE ── */
+section { padding: 6rem 6%; scroll-margin-top: 68px; }
+.urgency { scroll-margin-top: 68px; }
+.section-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--red-lt); margin-bottom: .6rem;
+  display: flex; align-items: center; gap: .6rem;
+}
+.section-label::after { content: ''; width: 32px; height: 1px; background: var(--red); }
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1;
+  color: var(--white); margin-bottom: .75rem;
+}
+.section-sub {
+  font-size: .95rem; line-height: 1.75; color: var(--gray);
+  max-width: 500px;
+}
+
+/* ── SERVICES ── */
+.services { background: var(--dark); }
+.services-head { margin-bottom: 3rem; }
+.services-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 1px; background: var(--border);
+}
+.svc-card {
+  background: var(--panel);
+  padding: 2.25rem 1.75rem;
+  position: relative; overflow: hidden;
+  transition: background .3s;
+}
+.svc-card::before {
+  content: '';
+  position: absolute; bottom: 0; left: 0;
+  width: 0; height: 3px; background: var(--red);
+  transition: width .4s ease;
+}
+.svc-card:hover::before { width: 100%; }
+.svc-card:hover { background: #1e1e1e; }
+.svc-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.5rem; color: rgba(212,43,43,.12);
+  position: absolute; top: 1rem; right: 1.25rem;
+  line-height: 1;
+}
+.svc-icon {
+  font-size: 2rem; margin-bottom: 1.25rem; line-height: 1;
+}
+.svc-card h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.15rem; font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--white); margin-bottom: .6rem;
+}
+.svc-card p { font-size: .85rem; line-height: 1.65; color: var(--gray); }
+
+/* ── URGENCY BAND ── */
+.urgency {
+  background: var(--red);
+  padding: 3.5rem 6%;
+  display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center;
+}
+.urgency h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem); line-height: 1.1; color: var(--white);
+}
+.urgency p { font-size: .95rem; color: rgba(255,255,255,.8); margin-top: .4rem; }
+.btn-white {
+  display: inline-flex; align-items: center; gap: .6rem;
+  background: var(--white); color: var(--red);
+  padding: 1rem 2.25rem; border-radius: 2px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  cursor: pointer; text-decoration: none; white-space: nowrap;
+  transition: opacity .2s, transform .2s;
+  box-shadow: 0 8px 30px rgba(0,0,0,.3);
+}
+.btn-white:hover { opacity: .9; transform: translateY(-2px); }
+
+/* ── PROCESS ── */
+.process { background: var(--black); }
+.process-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 2rem; margin-top: 3rem; position: relative;
+}
+.process-grid::before {
+  content: '';
+  position: absolute; top: 30px; left: 12%; right: 12%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,43,43,.3), transparent);
+}
+.process-step { text-align: center; padding: 0 .5rem; }
+.step-circle {
+  width: 60px; height: 60px; border-radius: 50%;
+  border: 1px solid rgba(212,43,43,.5);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem; color: var(--red-lt);
+  background: rgba(212,43,43,.07);
+  margin: 0 auto 1.25rem;
+  position: relative; z-index: 1;
+}
+.process-step h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+  color: var(--white); margin-bottom: .4rem;
+}
+.process-step p { font-size: .82rem; color: var(--gray); line-height: 1.55; }
+
+/* ── TESTIMONIALS ── */
+.testimonials { background: var(--dark); }
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem; margin-top: 3rem;
+}
+.testi-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  position: relative; overflow: hidden;
+  transition: border-color .3s;
+}
+.testi-card:hover { border-color: rgba(212,43,43,.3); }
+.testi-quote {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem; color: rgba(212,43,43,.15);
+  position: absolute; top: .5rem; right: 1.25rem;
+  line-height: 1;
+}
+.testi-card blockquote {
+  font-size: .88rem; line-height: 1.75; color: var(--light);
+  margin-bottom: 1.5rem; position: relative;
+}
+.testi-stars { color: var(--red-lt); font-size: .8rem; margin-bottom: .75rem; }
+.testi-author strong { font-size: .88rem; font-weight: 500; color: var(--white); display: block; }
+.testi-author span { font-size: .78rem; color: var(--gray); }
+
+/* ── CONTACT ── */
+.contact { background: var(--black); }
+.contact-inner {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+}
+.contact-info {}
+.contact-info h2 { margin-bottom: 1rem; }
+.contact-info p { font-size: .95rem; line-height: 1.75; color: var(--gray); margin-bottom: 2rem; }
+.contact-items { display: flex; flex-direction: column; gap: 1.25rem; }
+.contact-item {
+  display: flex; align-items: flex-start; gap: 1rem;
+}
+.c-icon {
+  width: 42px; height: 42px; border-radius: 2px;
+  background: rgba(212,43,43,.12); border: 1px solid rgba(212,43,43,.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.c-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--gray);
+}
+.c-value { font-size: .95rem; font-weight: 500; color: var(--white); margin-top: .15rem; }
+
+/* FORM */
+.contact-form {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+}
+.contact-form h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.1rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--white); margin-bottom: .3rem;
+}
+.contact-form p { font-size: .82rem; color: var(--gray); margin-bottom: 1.75rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.fg { margin-bottom: 1.1rem; }
+.fg label {
+  display: block; font-family: 'Barlow Condensed', sans-serif;
+  font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.45); margin-bottom: .4rem;
+}
+.fg input, .fg select, .fg textarea {
+  width: 100%; padding: .75rem 1rem;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.1); border-radius: 2px;
+  color: var(--white); font-family: 'Barlow', sans-serif; font-size: .9rem;
+  transition: border-color .2s;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus {
+  outline: none; border-color: var(--red);
+}
+.fg select option { background: #1a1a1a; }
+.fg textarea { resize: vertical; min-height: 90px; }
+.form-btn {
+  width: 100%; padding: .9rem;
+  background: var(--red); color: var(--white); border: none; border-radius: 2px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  cursor: pointer; transition: background .2s;
+}
+.form-btn:hover { background: var(--red-lt); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--dark);
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 6%;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem;
+}
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem; letter-spacing: .05em; color: var(--white);
+}
+.footer-logo span { color: var(--red-lt); }
+.footer-copy { font-size: .78rem; color: rgba(255,255,255,.3); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+  color: rgba(255,255,255,.3); text-decoration: none; transition: color .2s;
+}
+.footer-links a:hover { color: var(--red-lt); }
+
+/* ── SCROLL TOP ── */
+.scroll-top {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+  width: 44px; height: 44px; background: var(--red); border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; cursor: pointer; border: none;
+  box-shadow: 0 4px 20px rgba(212,43,43,.5);
+  transition: background .2s, transform .2s;
+  opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+.scroll-top.visible { opacity: 1; pointer-events: all; }
+.scroll-top:hover { background: var(--red-lt); transform: translateY(-2px); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .3; }
+}
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 860px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-visual { order: -1; }
+  .process-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-grid::before { display: none; }
+  .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .urgency { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+}
+@media (max-width: 600px) {
+  section { padding: 4rem 5%; }
+  .services-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  footer { flex-direction: column; text-align: center; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+  h1 { font-size: 2.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#inicio" class="nav-logo">
+    <svg viewBox="0 0 80 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="4,42 40,8 76,42" stroke="white" stroke-width="3" fill="none" stroke-linejoin="round"/>
+      <rect x="10" y="28" width="60" height="26" rx="1.5" fill="none" stroke="white" stroke-width="2"/>
+      <rect x="10" y="31" width="20" height="23" rx="1" fill="none" stroke="white" stroke-width="1.5"/>
+      <path d="M12 37 L12 33 L26 33 L31 37 Z" fill="none" stroke="white" stroke-width="1.2"/>
+      <line x1="34" y1="33" x2="68" y2="33" stroke="white" stroke-width="1" opacity=".5"/>
+      <line x1="34" y1="38" x2="68" y2="38" stroke="white" stroke-width="1" opacity=".35"/>
+      <line x1="34" y1="43" x2="68" y2="43" stroke="white" stroke-width="1" opacity=".35"/>
+      <circle cx="22" cy="54" r="5" fill="none" stroke="white" stroke-width="2"/>
+      <circle cx="22" cy="54" r="2" fill="white" opacity=".3"/>
+      <circle cx="52" cy="54" r="5" fill="none" stroke="white" stroke-width="2"/>
+      <circle cx="52" cy="54" r="2" fill="white" opacity=".3"/>
+      <circle cx="64" cy="54" r="5" fill="none" stroke="white" stroke-width="2"/>
+      <circle cx="64" cy="54" r="2" fill="white" opacity=".3"/>
+      <line x1="4" y1="59" x2="76" y2="59" stroke="white" stroke-width="1.5"/>
+    </svg>
+    <div class="nav-logo-text">RESCATE <span>24/7</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#inicio" data-section="inicio">Inicio</a></li>
+    <li><a href="#servicios" data-section="servicios">Servicios</a></li>
+    <li><a href="#proceso" data-section="proceso">Cómo trabajamos</a></li>
+    <li><a href="#clientes" data-section="clientes">Clientes</a></li>
+    <li><a href="#contacto" data-section="contacto" class="nav-cta">🚨 Llamar ahora</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#inicio" onclick="toggleMenu()">Inicio</a>
+  <a href="#servicios" onclick="toggleMenu()">Servicios</a>
+  <a href="#proceso" onclick="toggleMenu()">Cómo trabajamos</a>
+  <a href="#clientes" onclick="toggleMenu()">Clientes</a>
+  <a href="#contacto" class="mob-cta" onclick="toggleMenu()">🚨 Llamar ahora — Emergencia</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-slash"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge"><span class="dot"></span> Servicio activo ahora mismo</div>
+      <h1>Tu unidad<br>no para.<br><em>Nosotros tampoco.</em></h1>
+      <p class="hero-sub">Mecánica diesel especializada a pie de carretera. Auxilio vial 24/7, servicios preventivos y correctivos para unidades pesadas. Llegamos donde estás.</p>
+      <div class="hero-actions">
+        <a href="tel:+524420000000" class="btn-red">🚨 Llamar ahora — Emergencia</a>
+        <a href="#servicios" class="btn-outline">Ver servicios →</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-truck-card">
+        <svg viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Roof -->
+          <polyline points="20,155 200,30 380,155" stroke="white" stroke-width="4" fill="none" stroke-linejoin="round"/>
+          <!-- Body -->
+          <rect x="30" y="105" width="340" height="110" rx="3" fill="none" stroke="white" stroke-width="3"/>
+          <!-- Cab -->
+          <rect x="30" y="112" width="100" height="103" rx="2" fill="none" stroke="white" stroke-width="2.5"/>
+          <!-- Windshield -->
+          <path d="M35 138 L35 118 L110 118 L125 138 Z" fill="none" stroke="white" stroke-width="2"/>
+          <!-- Exhaust pipes -->
+          <rect x="115" y="80" width="7" height="32" rx="1" fill="white" opacity=".5"/>
+          <rect x="127" y="86" width="7" height="26" rx="1" fill="white" opacity=".35"/>
+          <!-- Trailer lines -->
+          <line x1="140" y1="118" x2="365" y2="118" stroke="white" stroke-width="1.5" opacity=".5"/>
+          <line x1="140" y1="132" x2="365" y2="132" stroke="white" stroke-width="1.5" opacity=".35"/>
+          <line x1="140" y1="148" x2="365" y2="148" stroke="white" stroke-width="1.5" opacity=".35"/>
+          <line x1="140" y1="164" x2="365" y2="164" stroke="white" stroke-width="1.5" opacity=".35"/>
+          <!-- Vert trailer divisions -->
+          <line x1="200" y1="108" x2="200" y2="215" stroke="white" stroke-width="1" opacity=".2"/>
+          <line x1="280" y1="108" x2="280" y2="215" stroke="white" stroke-width="1" opacity=".2"/>
+          <!-- Wheels -->
+          <circle cx="75" cy="215" r="18" fill="none" stroke="white" stroke-width="3"/>
+          <circle cx="75" cy="215" r="8" fill="none" stroke="white" stroke-width="2"/>
+          <circle cx="75" cy="215" r="3" fill="white" opacity=".3"/>
+          <circle cx="240" cy="215" r="18" fill="none" stroke="white" stroke-width="3"/>
+          <circle cx="240" cy="215" r="8" fill="none" stroke="white" stroke-width="2"/>
+          <circle cx="240" cy="215" r="3" fill="white" opacity=".3"/>
+          <circle cx="295" cy="215" r="18" fill="none" stroke="white" stroke-width="3"/>
+          <circle cx="295" cy="215" r="8" fill="none" stroke="white" stroke-width="2"/>
+          <circle cx="295" cy="215" r="3" fill="white" opacity=".3"/>
+          <circle cx="355" cy="215" r="18" fill="none" stroke="white" stroke-width="3"/>
+          <circle cx="355" cy="215" r="8" fill="none" stroke="white" stroke-width="2"/>
+          <circle cx="355" cy="215" r="3" fill="white" opacity=".3"/>
+          <!-- Ground -->
+          <line x1="0" y1="233" x2="400" y2="233" stroke="white" stroke-width="2"/>
+          <!-- Speed lines (motion) -->
+          <line x1="0" y1="200" x2="22" y2="200" stroke="#D42B2B" stroke-width="2" opacity=".7"/>
+          <line x1="0" y1="192" x2="16" y2="192" stroke="#D42B2B" stroke-width="1.5" opacity=".5"/>
+          <line x1="0" y1="208" x2="10" y2="208" stroke="#D42B2B" stroke-width="1" opacity=".4"/>
+        </svg>
+      </div>
+      <div class="hero-stats-row">
+        <div class="hstat"><div class="hstat-num">24/7</div><div class="hstat-lbl">Siempre disponible</div></div>
+        <div class="hstat"><div class="hstat-num">+800</div><div class="hstat-lbl">Unidades atendidas</div></div>
+        <div class="hstat"><div class="hstat-num">&lt;60m</div><div class="hstat-lbl">Tiempo de respuesta</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicios">
+  <div class="services-head">
+    <div class="section-label">Lo que hacemos</div>
+    <h2 class="section-title">Servicios especializados en diesel</h2>
+    <p class="section-sub">Atención completa para unidades pesadas en carretera y en taller. Diagnóstico preciso, soluciones reales.</p>
+  </div>
+  <div class="services-grid">
+    <div class="svc-card">
+      <div class="svc-num">01</div>
+      <div class="svc-icon">🚛</div>
+      <h3>Auxilio Vial 24/7</h3>
+      <p>Atención de emergencia a cualquier hora en carretera. Tu unidad varada no espera — nosotros tampoco. Cobertura en autopistas y carreteras federales.</p>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">02</div>
+      <div class="svc-icon">🔧</div>
+      <h3>Mecánica Diesel</h3>
+      <p>Diagnóstico y reparación de motor, transmisión, sistema de inyección, turbo y más. Técnicos especializados en unidades pesadas y semirremolques.</p>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">03</div>
+      <div class="svc-icon">⚙️</div>
+      <h3>Servicio Preventivo</h3>
+      <p>Afinaciones, cambios de aceite, revisión de frenos, filtros y sistemas. Mantén tu flota en óptimas condiciones y evita paros inesperados en ruta.</p>
+    </div>
+    <div class="svc-card">
+      <div class="svc-num">04</div>
+      <div class="svc-icon">🛠️</div>
+      <h3>Servicio Correctivo</h3>
+      <p>Reparación de fallas mecánicas, eléctricas y electrónicas. Contamos con equipos de diagnóstico para localizar el problema de forma rápida y precisa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- URGENCY BAND -->
+<div class="urgency">
+  <div>
+    <h2>¿Tu unidad está varada en carretera ahora mismo?</h2>
+    <p>Llámanos — en menos de 60 minutos estamos contigo.</p>
+  </div>
+  <a href="tel:+524420000000" class="btn-white">📞 &nbsp;Llamar ahora</a>
+</div>
+
+<!-- PROCESS -->
+<section class="process" id="proceso">
+  <div class="section-label">Cómo trabajamos</div>
+  <h2 class="section-title">Rápido, directo y sin complicaciones</h2>
+  <p class="section-sub">Desde que llamas hasta que tu unidad vuelve a rodar, te acompañamos en cada paso.</p>
+  <div class="process-grid">
+    <div class="process-step">
+      <div class="step-circle">01</div>
+      <h4>Llamas o escribes</h4>
+      <p>Contáctanos por teléfono o WhatsApp y cuéntanos la falla. Tomamos tus datos y ubicación de inmediato.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">02</div>
+      <h4>Salimos hacia ti</h4>
+      <p>Despachamos al técnico más cercano con herramienta y refacciones para los problemas más comunes.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">03</div>
+      <h4>Diagnóstico en sitio</h4>
+      <p>Evaluamos la falla en el lugar con equipo especializado y te damos un presupuesto claro y sin sorpresas.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">04</div>
+      <h4>Tu unidad rueda</h4>
+      <p>Reparación en carretera o traslado seguro si se requiere taller. Garantía en todo trabajo realizado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="clientes">
+  <div class="section-label">Lo que dicen</div>
+  <h2 class="section-title">Operadores y empresas que confían en nosotros</h2>
+  <div class="testimonials-grid">
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <blockquote>Se me fue el turbo en plena autopista a las 2 AM. En menos de 50 minutos ya tenían técnico conmigo. Me salvaron la carga y el viaje. Profesionales de verdad.</blockquote>
+      <div class="testi-author">
+        <strong>Carlos R.</strong>
+        <span>Operador independiente — Querétaro–CDMX</span>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <blockquote>Tenemos una flota de 18 unidades. Desde que trabajamos con Rescate 24/7 para preventivos, los paros en ruta bajaron un 40%. Servicio puntual y técnicos muy bien preparados.</blockquote>
+      <div class="testi-author">
+        <strong>Logística Norteña S.A.</strong>
+        <span>Empresa de transporte — Monterrey</span>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <div class="testi-stars">★★★★★</div>
+      <blockquote>El diagnóstico fue preciso, el presupuesto justo y el trabajo quedó garantizado. No necesité buscar más. Ya los tengo agendados para el mantenimiento de toda mi flota.</blockquote>
+      <div class="testi-author">
+        <strong>Transportes El Águila</strong>
+        <span>Flota regional — Guanajuato</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contacto">
+  <div class="contact-inner">
+    <div class="contact-info">
+      <div class="section-label">Contáctanos</div>
+      <h2 class="section-title">Estamos listos para ayudarte</h2>
+      <p>Para emergencias llámanos directamente. Para servicios preventivos o cotizaciones, llena el formulario y te respondemos en menos de 2 horas.</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="c-icon">📞</div>
+          <div>
+            <div class="c-label">Teléfono / WhatsApp</div>
+            <div class="c-value">+52 442 000 0000</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">🕐</div>
+          <div>
+            <div class="c-label">Disponibilidad</div>
+            <div class="c-value">24 horas / 7 días / 365 días</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">📍</div>
+          <div>
+            <div class="c-label">Cobertura</div>
+            <div class="c-value">Carreteras federales y autopistas — Querétaro y región</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">✉️</div>
+          <div>
+            <div class="c-label">Correo</div>
+            <div class="c-value">contacto@rescate247.mx</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <h3>Solicitar cotización</h3>
+      <p>Para servicios programados — te respondemos en &lt;2 horas.</p>
+      <div class="form-row">
+        <div class="fg"><label>Nombre</label><input type="text" placeholder="Tu nombre"/></div>
+        <div class="fg"><label>Empresa</label><input type="text" placeholder="Empresa o flota"/></div>
+      </div>
+      <div class="fg"><label>Teléfono</label><input type="tel" placeholder="+52 000 000 0000"/></div>
+      <div class="fg">
+        <label>Tipo de servicio</label>
+        <select>
+          <option>Auxilio vial de emergencia</option>
+          <option>Servicio preventivo</option>
+          <option>Servicio correctivo</option>
+          <option>Contrato de mantenimiento de flota</option>
+          <option>Otro</option>
+        </select>
+      </div>
+      <div class="fg"><label>Descripción del problema o requerimiento</label><textarea placeholder="¿Qué necesitas? ¿Cuántas unidades? ¿Dónde estás?"></textarea></div>
+      <button class="form-btn" id="formBtn">Enviar solicitud</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">RESCATE <span>24/7</span></div>
+  <div class="footer-links">
+    <a href="#servicios">Servicios</a>
+    <a href="#proceso">Proceso</a>
+    <a href="#clientes">Clientes</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+  <div class="footer-copy">© 2025 Rescate 24/7. Todos los derechos reservados.</div>
+</footer>
+
+<!-- SCROLL TOP -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  const NAV_HEIGHT = 68;
+
+  // ── Smooth scroll a una sección por ID ──
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.pageYOffset - NAV_HEIGHT;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+
+  // ── Interceptar TODOS los links internos (#anchor) ──
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[href^="#"]');
+    if (link) {
+      e.preventDefault();
+      const id = link.getAttribute('href').replace('#', '');
+      if (id) scrollTo(id);
+    }
+  });
+
+  // ── Toggle mobile menu ──
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const ham  = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    ham.classList.toggle('open');
+  }
+
+  // ── Cerrar menú móvil al click fuera ──
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobileMenu');
+    const ham  = document.getElementById('hamburger');
+    if (!menu || !ham) return;
+    if (menu.classList.contains('open') && !menu.contains(e.target) && !ham.contains(e.target)) {
+      menu.classList.remove('open');
+      ham.classList.remove('open');
+    }
+  });
+
+  // ── Scroll: scroll-top button + nav shadow + active link ──
+  window.addEventListener('scroll', () => {
+    // Scroll top button
+    const btn = document.getElementById('scrollTop');
+    if (btn) btn.classList.toggle('visible', window.scrollY > 400);
+
+    // Nav shadow
+    const nav = document.getElementById('mainNav');
+    if (nav) nav.classList.toggle('scrolled', window.scrollY > 10);
+
+    // Active nav link
+    const sections = ['inicio','servicios','proceso','clientes','contacto'];
+    const navLinks = document.querySelectorAll('.nav-links a[data-section]');
+    let current = 'inicio';
+
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= NAV_HEIGHT + 20) current = id;
+    });
+
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.dataset.section === current && !a.classList.contains('nav-cta'));
+    });
+  });
+
+  // ── Scroll-top button ──
+  const stBtn = document.getElementById('scrollTop');
+  if (stBtn) stBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // ── Form submit ──
+  const formBtn = document.getElementById('formBtn');
+  if (formBtn) formBtn.addEventListener('click', function() {
+    this.textContent = '✓ Solicitud enviada — Te contactamos pronto';
+    this.style.background = '#1a6b3a';
+    this.disabled = true;
+  });
+
+  // ── Scroll animations ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.svc-card, .process-step, .testi-card, .hstat, .contact-item').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = `opacity .5s ${i * 0.07}s, transform .5s ${i * 0.07}s`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
